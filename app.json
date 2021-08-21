@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "places-app",
+    "slug": "places-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "places-app"
+}
