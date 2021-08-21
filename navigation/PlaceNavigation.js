@@ -7,30 +7,37 @@ import MapScreen from "../screens/MapScreen";
 import PlaceListScreen from "../screens/PlaceListScreen";
 import NewPlaceScreen from "../screens/NewPlaceScreen";
 
-
+import CustomHeaderButton from "../components/UI/CustonHeaderButton";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 const Stack = createNativeStackNavigator();
 
 const PlaceNavigation = () => {
-	return <NavigationContainer>
-        <Stack.Navigator>
-            <Stack.Screen 
-                name='place-list'
-                component={PlaceListScreen}
-            />
-                        <Stack.Screen 
-                name='map-screen'
-                component={MapScreen}
-            />
-                        <Stack.Screen 
-                name='new-place'
-                component={NewPlaceScreen}
-            />
-                        <Stack.Screen 
-                name='place-detail'
-                component={DetailPlaceScreen}
-            />
-        </Stack.Navigator>
-    </NavigationContainer>;
+	return (
+		<NavigationContainer>
+			<Stack.Navigator initialRouteName="PlaceList">
+				<Stack.Screen
+					name="PlaceList"
+					component={PlaceListScreen}
+					options={({ navigation, route }) => ({
+						title: "Home",
+						headerRight: () => (
+							<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+								<Item
+									iconName="pluscircle"
+									size={24}
+									color="orange"
+									onPress={() => {navigation.navigate('NewPlace')}}
+								/>
+							</HeaderButtons>
+						),
+					})}
+				/>
+				<Stack.Screen name="MapScreen" component={MapScreen} />
+				<Stack.Screen name="NewPlace" component={NewPlaceScreen} />
+				<Stack.Screen name="PlaceDetail" component={DetailPlaceScreen} />
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
 };
 
 export default PlaceNavigation;
