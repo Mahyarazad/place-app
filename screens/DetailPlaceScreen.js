@@ -10,9 +10,11 @@ const DetailPlaceScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-	flex: 1,
-	justifyContent: "center",
-	alignItems: "center",
+	screen: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
 });
 
 export default DetailPlaceScreen;
