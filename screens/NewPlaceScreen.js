@@ -2,14 +2,22 @@ import React from "react";
 import { ScrollView, View, StyleSheet, Text, TextInput } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import colors from "../constants/colors";
-import Colors from "../constants/colors";
+import { useDispatch } from "react-redux";
+import { addPlace } from "../store/places-actions";
 
 const NewPlaceScreen = (props) => {
 	const [textValue, setTextValue] = React.useState("");
+	const dispatch = useDispatch();
+
 	const textChangeHandler = (text) => {
 		setTextValue(text);
 	};
-	const submitHandler = () => {};
+
+	const submitHandler = () => {
+		dispatch(addPlace(textValue)),
+		setTextValue(''),
+		props.navigation.navigate('PlaceList')
+	};
 
 	return (
 		<ScrollView style={styles.screen}>
