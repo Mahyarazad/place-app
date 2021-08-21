@@ -7,26 +7,33 @@ import MapScreen from "../screens/MapScreen";
 import PlaceListScreen from "../screens/PlaceListScreen";
 import NewPlaceScreen from "../screens/NewPlaceScreen";
 
-import CustomHeaderButton from "../components/UI/CustonHeaderButton";
+import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 const Stack = createNativeStackNavigator();
 
 const PlaceNavigation = () => {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="PlaceList">
+			<Stack.Navigator 
+				initialRouteName="PlaceList"
+				>
 				<Stack.Screen
 					name="PlaceList"
 					component={PlaceListScreen}
 					options={({ navigation, route }) => ({
 						title: "Home",
+						headerStyle: {
+							backgroundColor: "orange",
+						},
 						headerRight: () => (
 							<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 								<Item
 									iconName="pluscircle"
 									size={24}
-									color="orange"
-									onPress={() => {navigation.navigate('NewPlace')}}
+									color="white"
+									onPress={() => {
+										navigation.navigate("NewPlace");
+									}}
 								/>
 							</HeaderButtons>
 						),
