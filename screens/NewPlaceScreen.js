@@ -4,19 +4,24 @@ import CustomButton from "../components/UI/CustomButton";
 import colors from "../constants/colors";
 import { useDispatch } from "react-redux";
 import { addPlace } from "../store/places-actions";
+import ImgPicker from "../components/places/ImageSelector";
 
 const NewPlaceScreen = (props) => {
 	const [textValue, setTextValue] = React.useState("");
+	const [image, setImage] = React.useState(null)
 	const dispatch = useDispatch();
 
 	const textChangeHandler = (text) => {
 		setTextValue(text);
 	};
 
+	const ImageHandler = (image) => {
+		setImage(image);
+	}
 	const submitHandler = () => {
-		dispatch(addPlace(textValue)),
-		setTextValue(''),
-		props.navigation.navigate('PlaceList')
+		dispatch(addPlace(textValue, image)),
+			setTextValue(""),
+			props.navigation.navigate("PlaceList");
 	};
 
 	return (
@@ -28,7 +33,12 @@ const NewPlaceScreen = (props) => {
 					onChangeText={textChangeHandler}
 					style={styles.textInput}
 				/>
-				<CustomButton buttonStyle={{backgroundColor: 'orange'}} buttonText="Save Place" onPress={submitHandler} />
+				<ImgPicker onImageTaken={ImageHandler}/>
+				<CustomButton
+					buttonStyle={{ backgroundColor: "orange", marginVertical: 5 }}
+					buttonText="Save Place"
+					onPress={submitHandler}
+				/>
 			</View>
 		</ScrollView>
 	);
@@ -38,7 +48,7 @@ const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
 		backgroundColor: colors.AliceBlue,
-		paddingTop: 10
+		paddingTop: 10,
 	},
 	input: {
 		marginHorizontal: 30,

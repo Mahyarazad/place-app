@@ -1,10 +1,27 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, FlatList } from "react-native";
+import { useSelector } from "react-redux";
+import PlaceCard from "../components/places/PlaceCard";
 
 const PlaceListScreen = (props) => {
+	const placeData = useSelector((state) => state.places);
 	return (
-		<View style={styles.screen}>
-			<Text> PlaceListScreen</Text>
+		<View styles={styles.screen}>
+			<FlatList
+				data={placeData.places}
+				renderItem={(itemData) => (				
+					<PlaceCard
+						image={itemData.item.imageUri}
+						title={itemData.item.title}
+						address={null}
+						onPress={() => {
+							props.navigation.navigate("PlaceDetail", {
+								place: itemData.item,
+							});
+						}}
+					/>
+				)}
+			/>
 		</View>
 	);
 };
