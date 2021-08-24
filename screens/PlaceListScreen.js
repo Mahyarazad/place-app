@@ -1,15 +1,22 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
-import { useSelector } from "react-redux";
+import { View, StyleSheet, Button, FlatList } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import PlaceCard from "../components/places/PlaceCard";
+import { loadPlaces } from "../store/places-actions";
 
 const PlaceListScreen = (props) => {
+	const dispatch = useDispatch();
 	const placeData = useSelector((state) => state.places);
+
+	React.useEffect(() => {
+		dispatch(loadPlaces());
+	}, [dispatch]);
+
 	return (
 		<View styles={styles.screen}>
 			<FlatList
-				data={placeData.places}
-				renderItem={(itemData) => (				
+				data={placeData.placeData}
+				renderItem={(itemData) => (
 					<PlaceCard
 						image={itemData.item.imageUri}
 						title={itemData.item.title}

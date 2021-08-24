@@ -16,18 +16,24 @@ const ImgPicker = (props) => {
 
 		if (result) {
 			setImage(result.uri);
-            props.onImageTaken(result.uri);
+			props.onImageTaken(result.uri);
 		}
 	};
 
 	return (
-		<View>
+		<View style={styles.screen}>
 			<View style={styles.container}>
-				{image ? <></> : <Text style={styles.text}>No Image Selected.</Text>}
+				{image ? (
+					<></>
+				) : (
+					<View style={{ justifyContent: "center" }}>
+						<Text>No Image Selected.</Text>
+					</View>
+				)}
 				{image && (
 					<Image
 						source={{ uri: image }}
-						style={{ width: "100%", height: 200 }}
+						style={{ width: "100%", height: 180 }}
 					/>
 				)}
 			</View>
@@ -42,19 +48,20 @@ const ImgPicker = (props) => {
 };
 
 const styles = StyleSheet.create({
+	screen: {
+		alignItems: "center",
+		marginHorizontal: 20,
+	},
 	container: {
 		flexDirection: "row",
-		flex: 1,
-		height: 200,
-		alignItems: "center",
+		height: 180,
+		width: "100%",
 		justifyContent: "center",
 		borderWidth: 1,
 		borderColor: "gray",
 		borderRadius: 5,
-	},
-	text: {
-		textAlign: "center",
-		alignItems: "center",
+		backgroundColor: 'white',
+        overflow: 'hidden'
 	},
 });
 

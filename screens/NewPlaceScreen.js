@@ -1,14 +1,21 @@
 import React from "react";
-import { ScrollView, View, StyleSheet, Text, TextInput } from "react-native";
+import {
+	ScrollView,
+	View,
+	StyleSheet,
+	ImageBackground,
+	TextInput,
+} from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import colors from "../constants/colors";
 import { useDispatch } from "react-redux";
 import { addPlace } from "../store/places-actions";
 import ImgPicker from "../components/places/ImageSelector";
+import LocationPicker from "../components/places/LocationPicker";
 
 const NewPlaceScreen = (props) => {
 	const [textValue, setTextValue] = React.useState("");
-	const [image, setImage] = React.useState(null)
+	const [image, setImage] = React.useState(null);
 	const dispatch = useDispatch();
 
 	const textChangeHandler = (text) => {
@@ -17,7 +24,7 @@ const NewPlaceScreen = (props) => {
 
 	const ImageHandler = (image) => {
 		setImage(image);
-	}
+	};
 	const submitHandler = () => {
 		dispatch(addPlace(textValue, image)),
 			setTextValue(""),
@@ -26,19 +33,34 @@ const NewPlaceScreen = (props) => {
 
 	return (
 		<ScrollView style={styles.screen}>
-			<View style={styles.input}>
-				<Text style={styles.title}> New Place </Text>
-				<TextInput
-					value={textValue}
-					onChangeText={textChangeHandler}
-					style={styles.textInput}
-				/>
-				<ImgPicker onImageTaken={ImageHandler}/>
-				<CustomButton
-					buttonStyle={{ backgroundColor: "orange", marginVertical: 5 }}
-					buttonText="Save Place"
-					onPress={submitHandler}
-				/>
+			<View style={styles.screen}>
+				<ImageBackground
+					style={{ height: "100%", justifyContent: "center" }}
+					resizeMode="cover"
+					source={{
+						uri: "https://previews.123rf.com/images/kundra/kundra1106/kundra110600021/9923374-funky-seamless-pattern.jpg",
+					}}
+				>
+					<View style={{ marginHorizontal: 20 }}>
+						<TextInput
+							placeholder="Location Name"
+							placeholderTextColor="#FFF" 
+							value={textValue}
+							onChangeText={textChangeHandler}
+							style={styles.textInput}
+						/>
+					</View>
+
+					<ImgPicker onImageTaken={ImageHandler} />
+					<LocationPicker />
+					<View style={styles.centerSaveButton}>
+						<CustomButton
+							buttonStyle={{ backgroundColor: "orange", marginVertical: 5 }}
+							buttonText="Save Place"
+							onPress={submitHandler}
+						/>
+					</View>
+				</ImageBackground>
 			</View>
 		</ScrollView>
 	);
@@ -47,11 +69,9 @@ const NewPlaceScreen = (props) => {
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		backgroundColor: colors.AliceBlue,
-		paddingTop: 10,
 	},
-	input: {
-		marginHorizontal: 30,
+	centerSaveButton: {
+		alignItems: "center",
 	},
 	textInput: {
 		fontSize: 19,
@@ -59,10 +79,8 @@ const styles = StyleSheet.create({
 		borderBottomColor: "gray",
 		marginVertical: 20,
 		width: "100%",
-	},
-	title: {
-		fontSize: 20,
-		textAlign: "left",
+		textAlign: "center",
+		color: 'white'
 	},
 });
 

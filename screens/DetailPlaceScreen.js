@@ -1,11 +1,14 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 
 const DetailPlaceScreen = (props) => {
 	console.log(props)
+	const {route} = props;
+
 	return (
 		<View style={styles.screen}>
-			<Text> Detail Screen</Text>
+			<Text> {route.params.place.address}</Text>
+			<Image style={styles.image} source={{uri: route.params.place.imageUri}}/>
 		</View>
 	);
 };
@@ -16,6 +19,10 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 	},
+	image:{
+		width: '100%',
+		height: 300
+	}
 });
 
 export default DetailPlaceScreen;

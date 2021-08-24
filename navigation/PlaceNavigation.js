@@ -14,9 +14,7 @@ const Stack = createNativeStackNavigator();
 const PlaceNavigation = () => {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator 
-				initialRouteName="PlaceList"
-				>
+			<Stack.Navigator initialRouteName="PlaceList">
 				<Stack.Screen
 					name="PlaceList"
 					component={PlaceListScreen}
@@ -41,7 +39,14 @@ const PlaceNavigation = () => {
 				/>
 				<Stack.Screen name="MapScreen" component={MapScreen} />
 				<Stack.Screen name="NewPlace" component={NewPlaceScreen} />
-				<Stack.Screen name="PlaceDetail" component={DetailPlaceScreen} />
+				<Stack.Screen
+					name="PlaceDetail"
+					component={DetailPlaceScreen}
+					options={({ navigation, route }) => (
+						{
+						title: route.params.place.title
+					})}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

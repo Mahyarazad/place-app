@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import Colors from '../../constants/colors';
 
 const PlaceCard = (props) => {
-	console.log(props);
 	return (
 		<TouchableOpacity style={styles.card} onPress={props.onPress}>
 			<View style={styles.imageContainer}>
