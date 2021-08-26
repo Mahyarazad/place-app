@@ -19,12 +19,15 @@ export const addPlace = (title, image) => {
 				pathname,
 				"dummy address",
 				15.1,
-				19,
+				19
 			);
-			console.log(dbResult)
 			dispatch({
 				type: ADD_PLACE,
-				placeData: { id: dbResult.insertId.toString(), title: title, image: pathname },
+				placeData: {
+					id: dbResult.insertId.toString(),
+					title: title,
+					image: pathname,
+				},
 			});
 		} catch (err) {
 			console.log(err);
@@ -40,6 +43,5 @@ export const loadPlaces = () => {
 		} catch (err) {
 			console.log(err);
 		}
-		
 	};
 };

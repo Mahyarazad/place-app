@@ -38,13 +38,13 @@ const NewPlaceScreen = (props) => {
 					style={{ height: "100%", justifyContent: "center" }}
 					resizeMode="cover"
 					source={{
-						uri: "https://previews.123rf.com/images/kundra/kundra1106/kundra110600021/9923374-funky-seamless-pattern.jpg",
+						uri: "https://images.unsplash.com/photo-1528731708534-816fe59f90cb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3900&q=80",
 					}}
 				>
 					<View style={{ marginHorizontal: 20 }}>
 						<TextInput
 							placeholder="Location Name"
-							placeholderTextColor="#FFF" 
+							placeholderTextColor="black" 
 							value={textValue}
 							onChangeText={textChangeHandler}
 							style={styles.textInput}
@@ -52,13 +52,14 @@ const NewPlaceScreen = (props) => {
 					</View>
 
 					<ImgPicker onImageTaken={ImageHandler} />
-					<LocationPicker />
+					<LocationPicker {...props}/>
 					<View style={styles.centerSaveButton}>
 						<CustomButton
 							buttonStyle={{ backgroundColor: "orange", marginVertical: 5 }}
 							buttonText="Save Place"
 							onPress={submitHandler}
 						/>
+
 					</View>
 				</ImageBackground>
 			</View>

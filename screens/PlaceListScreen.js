@@ -16,6 +16,7 @@ const PlaceListScreen = (props) => {
 		<View styles={styles.screen}>
 			<FlatList
 				data={placeData.placeData}
+				keyExtractor={(item) => item._id}
 				renderItem={(itemData) => (
 					<PlaceCard
 						image={itemData.item.imageUri}

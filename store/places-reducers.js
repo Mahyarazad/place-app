@@ -8,17 +8,27 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_PLACE:
 			const newPlace = new Place(
-				action.placeData.id,
+				action.placeData.id.toString(),
 				action.placeData.title,
 				action.placeData.image
 			);
 			state.places.push(newPlace);
 			return { ...state };
 		case FETCH_PLACE:
-			const transofrmedData = action.placeData.map((el) => {
-				new Place(el.id.toString, el.title, el.address, el.lat, el.long);
+			let transformedData = [];
+			action.placeData.map((el) => {
+				let temp;
+				temp = new Place(
+					el.id.toString(),
+					el.title,
+					el.imageUri,
+					el.address,
+					el.lat,
+					el.long
+				);
+				transformedData.push(temp);
 			});
-			return { ...action };
+			return { placeData: transformedData };
 		default:
 			return state;
 	}

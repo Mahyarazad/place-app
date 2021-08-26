@@ -45,12 +45,20 @@ const LocationPicker = (props) => {
 					)}
 				</View>
 			</View>
-			<View></View>
-			<CustomButton
-				buttonText="Get Location"
-				buttonStyle={styles.button}
-				onPress={locationHandler}
-			/>
+			<View style={styles.buttonConatiner}>
+				<CustomButton
+					buttonText="Get Location"
+					buttonStyle={styles.button}
+					onPress={locationHandler}
+				/>
+				<CustomButton
+					buttonText="Pick on the map"
+					buttonStyle={styles.button}
+					onPress={() => {
+						props.navigation.navigate("MapScreen");
+					}}
+				/>
+			</View>
 		</View>
 	);
 };
@@ -72,7 +80,8 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 	},
 	mapPreview: { justifyContent: "center" },
-	button: { backgroundColor: "orange", marginVertical: 5, width: 200 },
+	button: { backgroundColor: "orange", marginVertical: 5, width: 150 },
+	buttonConatiner: { flexDirection: "row", width: '100%', justifyContent: "space-evenly" },
 });
 
 export default LocationPicker;

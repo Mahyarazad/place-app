@@ -37,7 +37,20 @@ const PlaceNavigation = () => {
 						),
 					})}
 				/>
-				<Stack.Screen name="MapScreen" component={MapScreen} />
+				<Stack.Screen name="MapScreen" component={MapScreen} options={({navigation, route}) => ({
+					headerRight: () => (
+						<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+						<Item
+							iconName="save"
+							size={24}
+							color="orange"
+							onPress={() => {
+								console.log(route)
+							}}
+						/>
+					</HeaderButtons>
+					)
+				})}/>
 				<Stack.Screen name="NewPlace" component={NewPlaceScreen} />
 				<Stack.Screen
 					name="PlaceDetail"
