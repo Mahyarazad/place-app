@@ -9,9 +9,13 @@ import NewPlaceScreen from "../screens/NewPlaceScreen";
 
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { setPlaceByuser } from "../store/places-actions";
+import {useDispatch} from 'react-redux';
+
 const Stack = createNativeStackNavigator();
 
 const PlaceNavigation = () => {
+	const dispatch = useDispatch();
 	return (
 		<NavigationContainer>
 			<Stack.Navigator initialRouteName="PlaceList">
@@ -45,7 +49,8 @@ const PlaceNavigation = () => {
 							size={24}
 							color="orange"
 							onPress={() => {
-								console.log(route)
+								navigation.navigate('NewPlace');
+								dispatch(setPlaceByuser(route.params))
 							}}
 						/>
 					</HeaderButtons>

@@ -1,32 +1,39 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Dimensions, StyleSheet } from "react-native";
 import ENV from "../../env";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 
 const MapPreview = (props) => {
 	MapboxGL.setAccessToken(ENV.mapBoxApiKey);
-	if (props.location) {
-		console.log(props.location);
-	}
+	const {location} = props;
 	return (
 		<View>
 			<View style={styles.page}>
 				<View style={styles.container}>
 					<MapboxGL.MapView
+						{...props}
 						style={styles.map}
 						styleURL={MapboxGL.StyleURL.Street}
-						zoomLevel={10}
 						showUserLocation={true}
 						userTrackingMode={1}
-						centerCoordinate={[props.location.long, props.location.lat]}
+						centerCoordinate={[location.long, location.lat]}
 						logoEnabled={true}
 					>
 						<MapboxGL.Camera
-							zoomLevel={10}
-							centerCoordinate={[props.location.long, props.location.lat]}
+							zoomLevel={13}
+							centerCoordinate={[location.long, location.lat]}
 							animationMode="flyTo"
 							animationDuration={1200}
 						/>
+						<MapboxGL.MarkerView
+							coordinate={[location.long, location.lat]}
+							anchor={{ x: 0.5, y: 0.5 }}
+						>
+							<Image
+								style={styles.marker}
+								source={require('../../content/vippng.com-red-pin-png-1010455.png')}
+							/>
+						</MapboxGL.MarkerView>
 					</MapboxGL.MapView>
 				</View>
 			</View>
@@ -48,6 +55,12 @@ const styles = StyleSheet.create({
 	},
 	map: {
 		flex: 1,
+	},
+	marker: {
+		width:315,
+		height: 801,
+		backgroundColor: "transparent",
+		transform:([{scaleX:0.06}, {scaleY: 0.06}])
 	},
 });
 

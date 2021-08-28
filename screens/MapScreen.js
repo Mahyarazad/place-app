@@ -1,31 +1,38 @@
 import React from "react";
 import { View, StyleSheet, Image, Dimensions } from "react-native";
-import MapboxGL from "@react-native-mapbox-gl/maps";
+import MapboxGL, { Logger } from "@react-native-mapbox-gl/maps";
 import ENV from "../env";
+
+Logger.setLogCallback((log) => {
+	const { message } = log;
+
+	// expected warnings - see https://github.com/mapbox/mapbox-gl-native/issues/15341#issuecomment-522889062
+	if (
+		message.match("Request failed due to a permanent error: Canceled") ||
+		message.match("Request failed due to a permanent error: Socket Closed")
+	) {
+		return true;
+	}
+	return false;
+});
 
 const MapScreen = (props) => {
 	MapboxGL.setAccessToken(ENV.mapBoxApiKey);
-
-	const [marker, setMarker] = React.useState(true);
 	const [coords, setCoords] = React.useState({ lat: null, long: null });
-	const handleMarker = React.useCallback(
-		(location) => {
-			if (location) {
-				setMarker((prevState) => !prevState);
-				const { geometry } = location;
-				setCoords({
-					lat: geometry.coordinates[0],
-					long: geometry.coordinates[1],
-				});
-				props.navigation.setParams(coords);
-			}
-		},
-		[coords, setMarker]
-	);
 
-	React.useEffect(() => {
-		handleMarker();
-	}, [handleMarker]);
+	const handleMarker = (location) => {
+		if (location) {
+			const { geometry } = location;
+			setCoords({
+				lat: geometry.coordinates[0],
+				long: geometry.coordinates[1],
+			});
+			props.navigation.setParams({
+				lat: geometry.coordinates[0],
+				long: geometry.coordinates[1],
+			});
+		}
+	};
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -41,19 +48,21 @@ const MapScreen = (props) => {
 					handleMarker(el);
 				}}
 			>
-				{marker && (
-					<MapboxGL.MarkerView
-						coordinate={[+coords.lat, +coords.long]}
-						anchor={{ x: 0.5, y: 0.5 }}
-					>
-						<Image
-							style={styles.marker}
-							source={{
-								uri: "https://freepikpsd.com/media/2019/10/drop-pin-png-5-Transparent-Images.png",
-							}}
-						/>
-					</MapboxGL.MarkerView>
-				)}
+				<MapboxGL.Camera
+					zoomLevel={8}
+					centerCoordinate={[50, 40]}
+					animationMode="flyTo"
+					animationDuration={1200}
+				/>
+				<MapboxGL.MarkerView
+					coordinate={[+coords.lat, +coords.long]}
+					anchor={{ x: 0.5, y: 0.55 }}
+				>
+					<Image
+						style={styles.marker}
+						source={require("../content/vippng.com-red-pin-png-1010455.png")}
+					/>
+				</MapboxGL.MarkerView>
 			</MapboxGL.MapView>
 		</View>
 	);
@@ -64,9 +73,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	marker: {
-		width: Dimensions.get("window").width / 10,
-		height: Dimensions.get("window").height / 20,
+		width: 315,
+		height: 801,
 		backgroundColor: "transparent",
+		transform: [{ scaleX: 0.1 }, { scaleY: 0.1 }],
 	},
 });
 

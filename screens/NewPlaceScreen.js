@@ -15,6 +15,7 @@ import LocationPicker from "../components/places/LocationPicker";
 
 const NewPlaceScreen = (props) => {
 	const [textValue, setTextValue] = React.useState("");
+	const [coords, setCoords] = React.useState(null);
 	const [image, setImage] = React.useState(null);
 	const dispatch = useDispatch();
 
@@ -25,12 +26,26 @@ const NewPlaceScreen = (props) => {
 	const ImageHandler = (image) => {
 		setImage(image);
 	};
+
+	const locationHandler = React.useCallback(
+		(location) => {
+			if (location) {
+				setCoords(location);
+			}
+		},
+		[coords]
+	);
+
 	const submitHandler = () => {
-		dispatch(addPlace(textValue, image)),
+		dispatch(addPlace(textValue, image, coords)),
 			setTextValue(""),
-			props.navigation.navigate("PlaceList");
+			setCoords(null),
+		props.navigation.navigate("PlaceList");
 	};
 
+	React.useEffect(() => {
+		locationHandler();
+	});
 	return (
 		<ScrollView style={styles.screen}>
 			<View style={styles.screen}>
@@ -44,7 +59,7 @@ const NewPlaceScreen = (props) => {
 					<View style={{ marginHorizontal: 20 }}>
 						<TextInput
 							placeholder="Location Name"
-							placeholderTextColor="black" 
+							placeholderTextColor="black"
 							value={textValue}
 							onChangeText={textChangeHandler}
 							style={styles.textInput}
@@ -52,14 +67,13 @@ const NewPlaceScreen = (props) => {
 					</View>
 
 					<ImgPicker onImageTaken={ImageHandler} />
-					<LocationPicker {...props}/>
+					<LocationPicker {...props} onLocationPicked={locationHandler} />
 					<View style={styles.centerSaveButton}>
 						<CustomButton
 							buttonStyle={{ backgroundColor: "orange", marginVertical: 5 }}
 							buttonText="Save Place"
 							onPress={submitHandler}
 						/>
-
 					</View>
 				</ImageBackground>
 			</View>
@@ -81,7 +95,7 @@ const styles = StyleSheet.create({
 		marginVertical: 20,
 		width: "100%",
 		textAlign: "center",
-		color: 'white'
+		color: "black",
 	},
 });
 

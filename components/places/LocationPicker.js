@@ -3,13 +3,15 @@ import React from "react";
 import { View, Text, ActivityIndicator, Alert, StyleSheet } from "react-native";
 import CustomButton from "../UI/CustomButton";
 import MapPreview from "./MapPreview";
+import { useSelector } from "react-redux";
 
 const LocationPicker = (props) => {
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [locationData, setLocationData] = React.useState(null);
+	const pickedLocation = useSelector((state) => state.places);
 
-	const locationHandler = async () => {
-		const { status } = await Location.requestForegroundPermissionsAsync();
+	const locationHandler = React.useCallback(async () => {
+		const { status } = await Location.requestForegroundPermissionsAsync({enableHighAccuracy:true, timeout: 500});
 		if (status !== "granted") {
 			Alert.alert(
 				"Permission Denied",
@@ -19,14 +21,27 @@ const LocationPicker = (props) => {
 			return;
 		} else {
 			setIsLoading(true);
+
 			const { coords } = await Location.getCurrentPositionAsync({
 				timeout: 5000,
 			});
 			setLocationData({ lat: coords.latitude, long: coords.longitude });
+			props.onLocationPicked({
+				lat: coords.latitude,
+				long: coords.longitude,
+			});
 			setIsLoading(false);
 			return;
 		}
-	};
+	}, [locationData, isLoading]);
+
+	React.useEffect(() => {
+		if (typeof pickedLocation.action !== "undefined") {
+			const { action } = pickedLocation;
+			setLocationData({ lat: +action.coords.lat, long: +action.coords.long });
+			props.onLocationPicked(pickedLocation.action.coords);
+		}
+	}, [pickedLocation]);
 
 	return (
 		<View style={styles.screen}>
@@ -81,7 +96,11 @@ const styles = StyleSheet.create({
 	},
 	mapPreview: { justifyContent: "center" },
 	button: { backgroundColor: "orange", marginVertical: 5, width: 150 },
-	buttonConatiner: { flexDirection: "row", width: '100%', justifyContent: "space-evenly" },
+	buttonConatiner: {
+		flexDirection: "row",
+		width: "100%",
+		justifyContent: "space-evenly",
+	},
 });
 
 export default LocationPicker;

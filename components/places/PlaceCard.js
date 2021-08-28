@@ -43,7 +43,13 @@ const styles = StyleSheet.create({
 	},
     title:{
         fontSize: 20
-    }
+    },
+	infoContainer:{
+		width: '70%'
+	},
+	location:{
+		color:'gray'
+	}
 });
 
 export default PlaceCard;

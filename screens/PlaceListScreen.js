@@ -21,7 +21,7 @@ const PlaceListScreen = (props) => {
 					<PlaceCard
 						image={itemData.item.imageUri}
 						title={itemData.item.title}
-						address={null}
+						address={itemData.item.address}
 						onPress={() => {
 							props.navigation.navigate("PlaceDetail", {
 								place: itemData.item,

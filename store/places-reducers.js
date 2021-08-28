@@ -1,4 +1,4 @@
-import { ADD_PLACE, FETCH_PLACE } from "./places-actions";
+import { ADD_PLACE, FETCH_PLACE, SET_PLACE_BYUSER } from "./places-actions";
 import Place from "../models/place";
 const initialState = {
 	places: [],
@@ -7,15 +7,20 @@ const initialState = {
 export default (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_PLACE:
+			console.log(action);
 			const newPlace = new Place(
 				action.placeData.id.toString(),
 				action.placeData.title,
-				action.placeData.image
+				action.placeData.image,
+				action.placeData.address,
+				+action.placeData.lat,
+				+action.placeData.long
 			);
-			state.places.push(newPlace);
+			state.placeData.push(newPlace);
 			return { ...state };
 		case FETCH_PLACE:
 			let transformedData = [];
+
 			action.placeData.map((el) => {
 				let temp;
 				temp = new Place(
@@ -29,6 +34,9 @@ export default (state = initialState, action) => {
 				transformedData.push(temp);
 			});
 			return { placeData: transformedData };
+		case SET_PLACE_BYUSER:
+			return { ...state, action };
+
 		default:
 			return state;
 	}
