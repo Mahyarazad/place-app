@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	ImageBackground,
 	TextInput,
+	Alert,
 } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import colors from "../constants/colors";
@@ -37,10 +38,18 @@ const NewPlaceScreen = (props) => {
 	);
 
 	const submitHandler = () => {
-		dispatch(addPlace(textValue, image, coords)),
-			setTextValue(""),
-			setCoords(null),
-		props.navigation.navigate("PlaceList");
+		if (textValue && image && coords) {
+			dispatch(addPlace(textValue, image, coords)),
+				setTextValue(""),
+				setCoords(null),
+				props.navigation.navigate("PlaceList");
+		} else {
+			Alert.alert(
+				"Please add the missing information",
+				"You must add an image, location name, and the related picture.",
+				[{ text: "OK" }]
+			);
+		}
 	};
 
 	React.useEffect(() => {

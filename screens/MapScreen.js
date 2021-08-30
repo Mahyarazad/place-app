@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image, Dimensions } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import MapboxGL, { Logger } from "@react-native-mapbox-gl/maps";
 import ENV from "../env";
 
@@ -23,6 +23,7 @@ const MapScreen = (props) => {
 	const handleMarker = (location) => {
 		if (location) {
 			const { geometry } = location;
+			
 			setCoords({
 				lat: geometry.coordinates[0],
 				long: geometry.coordinates[1],
@@ -38,18 +39,17 @@ const MapScreen = (props) => {
 		<View style={{ flex: 1 }}>
 			<MapboxGL.MapView
 				style={styles.map}
-				styleURL={MapboxGL.StyleURL.Outdoors}
+				styleURL={MapboxGL.StyleURL.Street}
 				scrollEnabled={true}
 				pitchEnabled={true}
 				zoomEnabled={true}
-				centerCoordinate={[30, 12]}
 				logoEnabled={true}
 				onPress={(el) => {
 					handleMarker(el);
 				}}
 			>
 				<MapboxGL.Camera
-					zoomLevel={8}
+					zoomLevel={3}
 					centerCoordinate={[50, 40]}
 					animationMode="flyTo"
 					animationDuration={1200}

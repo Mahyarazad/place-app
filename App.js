@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import PlaceNavigation from "./navigation/PlaceNavigation";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -27,6 +27,9 @@ const store = createStore(
 );
 
 export default function App() {
+	React.useEffect(()=>{
+		StatusBar.setHidden(true)
+	},[])
 	return (
 		<Provider store={store}>
 			<PlaceNavigation />

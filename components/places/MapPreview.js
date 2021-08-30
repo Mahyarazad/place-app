@@ -6,6 +6,7 @@ import MapboxGL from "@react-native-mapbox-gl/maps";
 const MapPreview = (props) => {
 	MapboxGL.setAccessToken(ENV.mapBoxApiKey);
 	const {location} = props;
+
 	return (
 		<View>
 			<View style={styles.page}>
@@ -14,19 +15,19 @@ const MapPreview = (props) => {
 						{...props}
 						style={styles.map}
 						styleURL={MapboxGL.StyleURL.Street}
-						showUserLocation={true}
-						userTrackingMode={1}
-						centerCoordinate={[location.long, location.lat]}
+						scrollEnabled={true}
+						pitchEnabled={true}
+						zoomEnabled={true}
 						logoEnabled={true}
 					>
 						<MapboxGL.Camera
-							zoomLevel={13}
-							centerCoordinate={[location.long, location.lat]}
+							zoomLevel={5}
+							centerCoordinate={[location.lat,location.long]}
 							animationMode="flyTo"
 							animationDuration={1200}
 						/>
 						<MapboxGL.MarkerView
-							coordinate={[location.long, location.lat]}
+							coordinate={[location.lat,location.long]}
 							anchor={{ x: 0.5, y: 0.5 }}
 						>
 							<Image

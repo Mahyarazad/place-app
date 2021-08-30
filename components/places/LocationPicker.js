@@ -1,4 +1,4 @@
-import * as Location from "expo-location";
+import Geolocation from "react-native-geolocation-service";
 import React from "react";
 import { View, Text, ActivityIndicator, Alert, StyleSheet } from "react-native";
 import CustomButton from "../UI/CustomButton";
@@ -11,28 +11,30 @@ const LocationPicker = (props) => {
 	const pickedLocation = useSelector((state) => state.places);
 
 	const locationHandler = React.useCallback(async () => {
-		const { status } = await Location.requestForegroundPermissionsAsync({enableHighAccuracy:true, timeout: 500});
-		if (status !== "granted") {
-			Alert.alert(
-				"Permission Denied",
-				"Please authorize the location access to continue.",
-				[{ text: "OK" }]
-			);
-			return;
-		} else {
-			setIsLoading(true);
+		try {
+			await Geolocation.getCurrentPosition(
+				(position) => {
+					const { coords } = position;
+					setIsLoading(true);
 
-			const { coords } = await Location.getCurrentPositionAsync({
-				timeout: 5000,
-			});
-			setLocationData({ lat: coords.latitude, long: coords.longitude });
-			props.onLocationPicked({
-				lat: coords.latitude,
-				long: coords.longitude,
-			});
-			setIsLoading(false);
-			return;
+					setLocationData({ lat: coords.longitude, long: coords.latitude });
+					props.onLocationPicked({
+						lat: coords.latitude,
+						long: coords.longitude,
+					});
+					setIsLoading(false);
+				},
+				(error) => {
+					// See error code charts below.
+					console.log(error.code, error.message);
+					Alert.alert(error.code, error.message, [{ text: "OK" }]);
+				},
+				{ enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+			);
+		} catch (err) {
+			throw new Error("Sag to rohet Madarjende");
 		}
+
 	}, [locationData, isLoading]);
 
 	React.useEffect(() => {

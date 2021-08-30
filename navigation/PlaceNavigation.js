@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import RNBootSplash from 'react-native-bootsplash';
 import DetailPlaceScreen from "../screens/DetailPlaceScreen";
 import MapScreen from "../screens/MapScreen";
 import PlaceListScreen from "../screens/PlaceListScreen";
@@ -11,13 +11,14 @@ import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { setPlaceByuser } from "../store/places-actions";
 import {useDispatch} from 'react-redux';
+import { Alert } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 const PlaceNavigation = () => {
 	const dispatch = useDispatch();
 	return (
-		<NavigationContainer>
+		<NavigationContainer onReady={() => RNBootSplash.hide()}>
 			<Stack.Navigator initialRouteName="PlaceList">
 				<Stack.Screen
 					name="PlaceList"
@@ -49,8 +50,13 @@ const PlaceNavigation = () => {
 							size={24}
 							color="orange"
 							onPress={() => {
-								navigation.navigate('NewPlace');
-								dispatch(setPlaceByuser(route.params))
+								if(route.params){
+									navigation.navigate('NewPlace');
+									dispatch(setPlaceByuser(route.params))
+								} else {
+									Alert.alert('Pick a location', 'You must pick a location', [{text:'OK'}])
+								}
+								
 							}}
 						/>
 					</HeaderButtons>
