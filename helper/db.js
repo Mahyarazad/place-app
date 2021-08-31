@@ -21,6 +21,7 @@ export const init = () => {
 };
 
 export const insertPlace = (title, imageUri, address, lat, long) => {
+
 	const promise = new Promise((resolve, reject) => {
 		db.transaction((tx) => {
 			tx.executeSql(

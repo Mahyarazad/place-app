@@ -17,27 +17,31 @@ Logger.setLogCallback((log) => {
 });
 
 const MapScreen = (props) => {
-	MapboxGL.setAccessToken(ENV.mapBoxApiKey);
-	const [coords, setCoords] = React.useState({ lat: null, long: null });
 
+	MapboxGL.setAccessToken(ENV.mapBoxApiKey);
+
+	const [coords, setCoords] = React.useState({ lat: null, long: null });
 	const handleMarker = (location) => {
 		if (location) {
 			const { geometry } = location;
-			
+
 			setCoords({
 				lat: geometry.coordinates[0],
 				long: geometry.coordinates[1],
 			});
+
 			props.navigation.setParams({
 				lat: geometry.coordinates[0],
 				long: geometry.coordinates[1],
 			});
 		}
 	};
-
+	console.log(coords.zoom)
 	return (
+		
 		<View style={{ flex: 1 }}>
 			<MapboxGL.MapView
+				onStyleLoad={ el => console.log(el) } 
 				style={styles.map}
 				styleURL={MapboxGL.StyleURL.Street}
 				scrollEnabled={true}
@@ -47,10 +51,11 @@ const MapScreen = (props) => {
 				onPress={(el) => {
 					handleMarker(el);
 				}}
+				
 			>
 				<MapboxGL.Camera
-					zoomLevel={3}
-					centerCoordinate={[50, 40]}
+					zoomLevel={2}
+					centerCoordinate={[0, 0]}
 					animationMode="flyTo"
 					animationDuration={1200}
 				/>

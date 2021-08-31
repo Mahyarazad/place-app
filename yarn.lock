@@ -1923,6 +1923,11 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+"@react-native-community/geolocation@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/geolocation/-/geolocation-2.0.2.tgz#ba8b40f560ead8d014740d1cdea970b33f19312e"
+  integrity sha512-tTNXRCgnhJBu79mulQwzabXRpDqfh/uaDqfHVpvF0nX4NTpolpy6mvTRiFg7eWFPGRArsnZz1EYp6rHfJWGgEA==
+
 "@react-native-mapbox-gl/maps@^8.3.0":
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/@react-native-mapbox-gl/maps/-/maps-8.3.0.tgz#30dea30521847ba8d6bc1d46040a39f015b8a858"
@@ -5736,11 +5741,6 @@ react-native-bootsplash@^3.2.4:
     chalk "^4.1.0"
     fs-extra "^9.1.0"
     jimp "^0.16.1"
-
-react-native-geolocation-service@^5.3.0-beta.2:
-  version "5.3.0-beta.2"
-  resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-5.3.0-beta.2.tgz#78faeb06315c975e64774199a2e0cf3ab9f3242f"
-  integrity sha512-mK040gw0g/ZinWQmJ7uS5N9XlC3mG7+oMifR6MKZ0U7tQjrYiXe/oFF8DmujuNle+KRaqFMK67ZXesg7RmZZ/A==
 
 react-native-gesture-handler@~1.10.2:
   version "1.10.3"

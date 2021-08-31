@@ -8,7 +8,6 @@ import {
 	Alert,
 } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
-import colors from "../constants/colors";
 import { useDispatch } from "react-redux";
 import { addPlace } from "../store/places-actions";
 import ImgPicker from "../components/places/ImageSelector";
@@ -28,17 +27,14 @@ const NewPlaceScreen = (props) => {
 		setImage(image);
 	};
 
-	const locationHandler = React.useCallback(
-		(location) => {
-			if (location) {
-				setCoords(location);
-			}
-		},
-		[coords]
-	);
+	const locationHandler = React.useCallback((location) => {
+		if(location){
+			setCoords(location);
+		}
+	}, [coords]);
 
 	const submitHandler = () => {
-		if (textValue && image && coords) {
+		if (textValue && coords) {
 			dispatch(addPlace(textValue, image, coords)),
 				setTextValue(""),
 				setCoords(null),
@@ -54,7 +50,8 @@ const NewPlaceScreen = (props) => {
 
 	React.useEffect(() => {
 		locationHandler();
-	});
+	}, [locationHandler]);
+
 	return (
 		<ScrollView style={styles.screen}>
 			<View style={styles.screen}>

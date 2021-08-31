@@ -10,7 +10,7 @@ const PlaceCard = (props) => {
 			</View>
 			<View style={styles.infoContainer}>
 				<Text style={styles.title}>{props.title}</Text>
-				<Text style={styles.location}>{props.address}</Text>
+				<Text selectable style={styles.location}>{props.address}</Text>
 			</View>
 		</TouchableOpacity>
 	);

@@ -1,9 +1,16 @@
-import Geolocation from "react-native-geolocation-service";
 import React from "react";
-import { View, Text, ActivityIndicator, Alert, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	ActivityIndicator,
+	Alert,
+	StyleSheet,
+	PermissionsAndroid,
+} from "react-native";
 import CustomButton from "../UI/CustomButton";
 import MapPreview from "./MapPreview";
 import { useSelector } from "react-redux";
+import Geolocation from "@react-native-community/geolocation";
 
 const LocationPicker = (props) => {
 	const [isLoading, setIsLoading] = React.useState(false);
@@ -12,35 +19,43 @@ const LocationPicker = (props) => {
 
 	const locationHandler = React.useCallback(async () => {
 		try {
-			await Geolocation.getCurrentPosition(
-				(position) => {
-					const { coords } = position;
-					setIsLoading(true);
+			const granted = await PermissionsAndroid.request(
+				PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+				{
+					title: "Please authrozie the location access",
+					message: "The app needs your device's location to procced",
+					buttonPositive: "OK",
+				}
+			);
 
+			if (granted === "denied") {
+				Alert.alert(
+					"Insufficient Permissions!",
+					"Please authorize the location access",
+					[{ text: "OK" }]
+				);
+			}
+			if (granted) {
+				Geolocation.getCurrentPosition((info) => {
+					setIsLoading(true);
+					const { coords } = info;
 					setLocationData({ lat: coords.longitude, long: coords.latitude });
 					props.onLocationPicked({
 						lat: coords.latitude,
 						long: coords.longitude,
 					});
 					setIsLoading(false);
-				},
-				(error) => {
-					// See error code charts below.
-					console.log(error.code, error.message);
-					Alert.alert(error.code, error.message, [{ text: "OK" }]);
-				},
-				{ enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-			);
+				});
+			}
 		} catch (err) {
-			throw new Error("Sag to rohet Madarjende");
+			console.warn(err.message);
 		}
-
-	}, [locationData, isLoading]);
+	}, [locationData, isLoading, Geolocation, PermissionsAndroid]);
 
 	React.useEffect(() => {
 		if (typeof pickedLocation.action !== "undefined") {
 			const { action } = pickedLocation;
-			setLocationData({ lat: +action.coords.lat, long: +action.coords.long });
+			setLocationData({ lat: +action.coords.long, long: +action.coords.lat });
 			props.onLocationPicked(pickedLocation.action.coords);
 		}
 	}, [pickedLocation]);

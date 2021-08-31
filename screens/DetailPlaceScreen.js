@@ -10,10 +10,6 @@ const DetailPlaceScreen = (props) => {
 		state.places.placeData.find((el) => el._id === route.params.place._id)
 	);
 
-	if (locationData.long > 90 || locationData.long < -90) {
-		const temp = locationData.long;
-		Object.assign(locationData, { long: locationData.lat, lat: temp });
-	}
 	return (
 		<View style={styles.screen}>
 			<Image
@@ -22,24 +18,24 @@ const DetailPlaceScreen = (props) => {
 			/>
 
 			<View style={styles.mapContainer}>
-				<Text style={styles.text}> {route.params.place.address}</Text>
+				<Text selectable style={styles.text}> {route.params.place.address}</Text>
 				<MapboxGL.MapView
 					style={styles.map}
 					styleURL={MapboxGL.StyleURL.Outdoors}
 					scrollEnabled={true}
 					pitchEnabled={true}
 					zoomEnabled={true}
-					centerCoordinate={[+locationData.lat, +locationData.long]}
+					centerCoordinate={[+locationData.long, +locationData.lat]}
 					logoEnabled={true}
 				>
 					<MapboxGL.Camera
 						zoomLevel={8}
-						centerCoordinate={[+locationData.lat, +locationData.long]}
+						centerCoordinate={[+locationData.long, +locationData.lat]}
 						animationMode="flyTo"
 						animationDuration={1200}
 					/>
 					<MapboxGL.MarkerView
-						coordinate={[+locationData.lat, +locationData.long]}
+						coordinate={[+locationData.long, +locationData.lat]}
 						anchor={{ x: 0.5, y: 0.55 }}
 					>
 						<Image

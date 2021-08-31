@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import RNBootSplash from 'react-native-bootsplash';
+import RNBootSplash from "react-native-bootsplash";
 import DetailPlaceScreen from "../screens/DetailPlaceScreen";
 import MapScreen from "../screens/MapScreen";
 import PlaceListScreen from "../screens/PlaceListScreen";
@@ -10,7 +10,7 @@ import NewPlaceScreen from "../screens/NewPlaceScreen";
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { setPlaceByuser } from "../store/places-actions";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from "react-redux";
 import { Alert } from "react-native";
 
 const Stack = createNativeStackNavigator();
@@ -42,33 +42,42 @@ const PlaceNavigation = () => {
 						),
 					})}
 				/>
-				<Stack.Screen name="MapScreen" component={MapScreen} options={({navigation, route}) => ({
-					headerRight: () => (
-						<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-						<Item
-							iconName="save"
-							size={24}
-							color="orange"
-							onPress={() => {
-								if(route.params){
-									navigation.navigate('NewPlace');
-									dispatch(setPlaceByuser(route.params))
-								} else {
-									Alert.alert('Pick a location', 'You must pick a location', [{text:'OK'}])
-								}
-								
-							}}
-						/>
-					</HeaderButtons>
-					)
-				})}/>
+				<Stack.Screen
+					name="MapScreen"
+					component={MapScreen}
+					options={({ navigation, route }) => ({
+						headerRight: () => (
+							<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+								<Item
+									iconName="save"
+									size={24}
+									color="orange"
+									onPress={() => {
+										if (route.params) {
+											const coords = route.params;
+											navigation.navigate("NewPlace");
+											dispatch(
+												setPlaceByuser({ lat: coords.long, long: coords.lat })
+											);
+										} else {
+											Alert.alert(
+												"Pick a location",
+												"You must pick a location",
+												[{ text: "OK" }]
+											);
+										}
+									}}
+								/>
+							</HeaderButtons>
+						),
+					})}
+				/>
 				<Stack.Screen name="NewPlace" component={NewPlaceScreen} />
 				<Stack.Screen
 					name="PlaceDetail"
 					component={DetailPlaceScreen}
-					options={({ navigation, route }) => (
-						{
-						title: route.params.place.title
+					options={({ navigation, route }) => ({
+						title: route.params.place.title,
 					})}
 				/>
 			</Stack.Navigator>

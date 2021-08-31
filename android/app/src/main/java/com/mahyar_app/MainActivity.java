@@ -13,7 +13,6 @@ import expo.modules.splashscreen.singletons.SplashScreen;
 import expo.modules.splashscreen.SplashScreenImageResizeMode;
 
 import com.zoontek.rnbootsplash.RNBootSplash;
-
 public class MainActivity extends ReactActivity {
 
     // Added automatically by Expo Config

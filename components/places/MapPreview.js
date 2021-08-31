@@ -21,7 +21,7 @@ const MapPreview = (props) => {
 						logoEnabled={true}
 					>
 						<MapboxGL.Camera
-							zoomLevel={5}
+							zoomLevel={10}
 							centerCoordinate={[location.lat,location.long]}
 							animationMode="flyTo"
 							animationDuration={1200}

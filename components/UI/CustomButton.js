@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 const CustomButton = (props) => {
-	if (Platform.OS === "android") {
+	if (Platform.OS === "android" && Platform.Version>= 27) {
 		return (
 			<TouchableNativeFeedback onPress={props.onPress}>
 				<View style={{ ...styles.button, ...props.buttonStyle }}>
