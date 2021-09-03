@@ -36,7 +36,7 @@ const MapScreen = (props) => {
 			});
 		}
 	};
-	console.log(coords.zoom)
+	
 	return (
 		
 		<View style={{ flex: 1 }}>

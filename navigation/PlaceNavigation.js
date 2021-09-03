@@ -9,7 +9,9 @@ import NewPlaceScreen from "../screens/NewPlaceScreen";
 
 import CustomHeaderButton from "../components/UI/CustomHeaderButton";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { setPlaceByuser } from "../store/places-actions";
+import { setPlaceByuser } from "../store/place-reducer/places-actions";
+import { openModalFilter } from "../store/filter-reducer/filter-actions";
+import { enableFilter } from "../store/filter-reducer/filter-actions";
 import { useDispatch } from "react-redux";
 import { Alert } from "react-native";
 
@@ -31,6 +33,15 @@ const PlaceNavigation = () => {
 						headerRight: () => (
 							<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 								<Item
+									iconName="filter"
+									size={24}
+									color="white"
+									onPress={() => {
+										dispatch(enableFilter());
+										dispatch(openModalFilter());
+									}}
+								/>
+								<Item
 									iconName="pluscircle"
 									size={24}
 									color="white"
@@ -46,6 +57,7 @@ const PlaceNavigation = () => {
 					name="MapScreen"
 					component={MapScreen}
 					options={({ navigation, route }) => ({
+						headerStyle: { backgroundColor: "orange" },
 						headerRight: () => (
 							<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
 								<Item
@@ -72,7 +84,16 @@ const PlaceNavigation = () => {
 						),
 					})}
 				/>
-				<Stack.Screen name="NewPlace" component={NewPlaceScreen} />
+				<Stack.Screen
+					name="NewPlace"
+					component={NewPlaceScreen}
+					options={{
+						title: "New Place",
+						headerStyle: {
+							backgroundColor: "#ff7d59",
+						},
+					}}
+				/>
 				<Stack.Screen
 					name="PlaceDetail"
 					component={DetailPlaceScreen}

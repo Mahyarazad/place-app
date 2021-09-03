@@ -4,7 +4,7 @@ import Colors from '../../constants/colors';
 
 const PlaceCard = (props) => {
 	return (
-		<TouchableOpacity style={styles.card} onPress={props.onPress}>
+		<TouchableOpacity style={styles.card} onPress={props.onPress} onLongPress={props.onLongPress}>
 			<View style={styles.imageContainer}>
 				<Image style={styles.image} source={{ uri: props.image }} />
 			</View>

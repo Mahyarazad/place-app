@@ -4,7 +4,8 @@ import PlaceNavigation from "./navigation/PlaceNavigation";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import ReduxThunk from "redux-thunk";
-import PlaceReducer from "./store/places-reducers";
+import PlaceReducer from "./store/place-reducer/places-reducers";
+import FilterReducer from "./store/filter-reducer/filter-reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { init } from "./helper/db";
 
@@ -19,6 +20,7 @@ init()
 
 const rootReducer = combineReducers({
 	places: PlaceReducer,
+	filter: FilterReducer
 });
 
 const store = createStore(

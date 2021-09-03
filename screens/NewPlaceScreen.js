@@ -6,16 +6,19 @@ import {
 	ImageBackground,
 	TextInput,
 	Alert,
+	Text,
+	Dimensions
 } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import { useDispatch } from "react-redux";
-import { addPlace } from "../store/places-actions";
+import { addPlace } from "../store/place-reducer/places-actions";
 import ImgPicker from "../components/places/ImageSelector";
 import LocationPicker from "../components/places/LocationPicker";
 
 const NewPlaceScreen = (props) => {
 	const [textValue, setTextValue] = React.useState("");
 	const [coords, setCoords] = React.useState(null);
+	const [blur, setBlur] = React.useState(false);
 	const [image, setImage] = React.useState(null);
 	const dispatch = useDispatch();
 
@@ -27,11 +30,14 @@ const NewPlaceScreen = (props) => {
 		setImage(image);
 	};
 
-	const locationHandler = React.useCallback((location) => {
-		if(location){
-			setCoords(location);
-		}
-	}, [coords]);
+	const locationHandler = React.useCallback(
+		(location) => {
+			if (location) {
+				setCoords(location);
+			}
+		},
+		[coords]
+	);
 
 	const submitHandler = () => {
 		if (textValue && coords) {
@@ -56,27 +62,32 @@ const NewPlaceScreen = (props) => {
 		<ScrollView style={styles.screen}>
 			<View style={styles.screen}>
 				<ImageBackground
-					style={{ height: "100%", justifyContent: "center" }}
-					resizeMode="cover"
-					source={{
-						uri: "https://images.unsplash.com/photo-1528731708534-816fe59f90cb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3900&q=80",
-					}}
+					style={{ width: Dimensions.get('screen').width, height: Dimensions.get('screen').height }}
+					resizeMode="stretch"
+					source={require('../assets/1a1a7976bf5249ef1816a61505cba956.jpg')}
 				>
-					<View style={{ marginHorizontal: 20 }}>
+					<View style={styles.inputContainer}>
 						<TextInput
+							onBlur={() => setBlur(true)}
 							placeholder="Location Name"
 							placeholderTextColor="black"
 							value={textValue}
 							onChangeText={textChangeHandler}
 							style={styles.textInput}
 						/>
+						{blur && textValue.length === 0 && (
+							<Text style={styles.onBlurText}>
+								Location Name field cannot be empty
+							</Text>
+						)}
 					</View>
 
 					<ImgPicker onImageTaken={ImageHandler} />
 					<LocationPicker {...props} onLocationPicked={locationHandler} />
 					<View style={styles.centerSaveButton}>
 						<CustomButton
-							buttonStyle={{ backgroundColor: "orange", marginVertical: 5 }}
+							buttonStyle={{ backgroundColor: "transparent", marginVertical: 5 }}
+							textStyle={{color:'white'}}
 							buttonText="Save Place"
 							onPress={submitHandler}
 						/>
@@ -98,10 +109,19 @@ const styles = StyleSheet.create({
 		fontSize: 19,
 		borderBottomWidth: 1,
 		borderBottomColor: "gray",
-		marginVertical: 20,
 		width: "100%",
 		textAlign: "center",
 		color: "black",
+	},
+	inputContainer: {
+		marginHorizontal: 20,
+		height: 60,
+		marginVertical: 10,
+	},
+	onBlurText: {
+		color: "red",
+		textAlign: "center",
+		paddingTop: 5,
 	},
 });
 

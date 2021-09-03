@@ -51,7 +51,7 @@ const LocationPicker = (props) => {
 			console.warn(err.message);
 		}
 	}, [locationData, isLoading, Geolocation, PermissionsAndroid]);
-
+	
 	React.useEffect(() => {
 		if (typeof pickedLocation.action !== "undefined") {
 			const { action } = pickedLocation;
@@ -80,11 +80,13 @@ const LocationPicker = (props) => {
 			<View style={styles.buttonConatiner}>
 				<CustomButton
 					buttonText="Get Location"
+					textStyle={{color:'white'}}
 					buttonStyle={styles.button}
 					onPress={locationHandler}
 				/>
 				<CustomButton
 					buttonText="Pick on the map"
+					textStyle={{color:'white'}}
 					buttonStyle={styles.button}
 					onPress={() => {
 						props.navigation.navigate("MapScreen");
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 	},
 	mapPreview: { justifyContent: "center" },
-	button: { backgroundColor: "orange", marginVertical: 5, width: 150 },
+	button: { backgroundColor: "transparent", marginVertical: 5, width: 150 },
 	buttonConatiner: {
 		flexDirection: "row",
 		width: "100%",

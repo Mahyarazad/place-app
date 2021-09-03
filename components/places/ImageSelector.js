@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Alert, Image } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import CustomButton from "../UI/CustomButton";
 import * as ImagePicker from "expo-image-picker";
 
@@ -9,8 +9,8 @@ const ImgPicker = (props) => {
 	const takeImageHandler = async () => {
 		const result = await ImagePicker.launchCameraAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
-			allowsEditing: true,
-			aspect: [16, 9],
+			// allowsEditing: true,
+			aspect: [4, 3],
 			quality: 0.5,
 		});
 
@@ -41,7 +41,8 @@ const ImgPicker = (props) => {
 			<CustomButton
 				buttonText="Take Image"
 				onPress={takeImageHandler}
-				buttonStyle={{ backgroundColor: "orange", marginVertical: 5 }}
+				textStyle={{color:'white'}}
+				buttonStyle={{ backgroundColor: "transparent", marginVertical: 5 }}
 			/>
 		</View>
 	);
