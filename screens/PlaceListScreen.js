@@ -10,10 +10,34 @@ import {
 import Modal from "react-native-modal";
 import CustomButton from "../components/UI/CustomButton";
 import FilterModal from "../components/FilterModal";
+import * as FileSystem from "expo-file-system";
+
+const checkCachedModal = async () => {
+	let check;
+	if (typeof check === "undefined") {
+		try {
+			check = await FileSystem.readAsStringAsync(
+				FileSystem.cacheDirectory + "modalActive.txt",
+				{ encoding: FileSystem.EncodingType.UTF8 }
+			);
+		} catch (err) {
+			try {
+				await FileSystem.writeAsStringAsync(
+					FileSystem.cacheDirectory + "modalActive.txt",
+					"modalActive:false",
+					{ encoding: FileSystem.EncodingType.UTF8 }
+				);
+			} catch (err) {
+				throw new Error(err.message);
+			}
+		}
+	}
+	return check;
+};
 
 const PlaceListScreen = (props) => {
 	const dispatch = useDispatch();
-	const [modalActive, setModalActive] = React.useState(true);
+	const [modalActive, setModalActive] = React.useState(false);
 	const [promptUser, setPromptUser] = React.useState(false);
 	const [forwardId, setfForwardId] = React.useState(null);
 	const { placeData } = useSelector((state) => state.places);
@@ -28,28 +52,41 @@ const PlaceListScreen = (props) => {
 				dispatch(applyFilter(selectedDate));
 			}
 		},
-		[dispatch]
+		[dispatch, filterEnabled]
 	);
 
+	const checkCache = React.useCallback(async () => {
+		if (await checkCachedModal()) {
+			const timer = setTimeout(() => {
+				setModalActive(false);
+			}, 2000);
+
+			return () => {
+				clearTimeout(timer);
+			};
+		} else {
+			setModalActive(true);
+		}
+	});
+
 	React.useEffect(() => {
+		checkCache();
 		loadPlace();
 		if (modalActive) {
 			const timer = setTimeout(() => {
 				setModalActive(false);
-			}, 2000);
-	
+			}, 3000);
 
 			return () => {
 				clearTimeout(timer);
 			};
 		}
-	}, [loadPlace, modalActive, promptUser,filterEnabled]);
+	}, [checkCachedModal, loadPlace, modalActive, promptUser, filterEnabled]);
 
 	const handleDelete = (_id) => {
 		dispatch(removePlace(_id));
 	};
 
-	console.log(placeData)
 	return (
 		<View styles={styles.screen}>
 			<Modal isVisible={promptUser}>

@@ -1,10 +1,10 @@
 import Modal from "react-native-modal";
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import CustomButton from "./UI/CustomButton";
 import { useDispatch } from "react-redux";
 import { closeModalFilter } from "../store/filter-reducer/filter-actions";
-import { disableFilter, enableFilter } from "../store/filter-reducer/filter-actions";
+import { disableFilter } from "../store/filter-reducer/filter-actions";
 import CalendarPicker from "react-native-calendar-picker";
 
 const FilterModal = (props) => {
@@ -28,16 +28,16 @@ const FilterModal = (props) => {
 
 				<View style={styles.buttonContainer}>
 					<CustomButton
-						buttonStyle={{ backgroundColor: "transparent" }}
+						buttonStyle={{ backgroundColor: "transparent", width: Dimensions.get('window').width/2 }}
 						onPress={() => {
 							dispatch(closeModalFilter())
 							dispatch(disableFilter())
 						}}
-						buttonText="Cancel"
-						textStyle={{ color: "white" }}
+						buttonText="Cancel / Clear Filter"
+						textStyle={{ color: "white", fontSize: 17 }}
 					/>
 					<CustomButton
-						buttonStyle={{ backgroundColor: "transparent" }}
+						buttonStyle={{ backgroundColor: "transparent", width: Dimensions.get('window').width/2 }}
 						onPress={() => {
 							dispatch(closeModalFilter())
 						}}
