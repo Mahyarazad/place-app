@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import RNBootSplash from "react-native-bootsplash";
+
 import DetailPlaceScreen from "../screens/DetailPlaceScreen";
 import MapScreen from "../screens/MapScreen";
 import PlaceListScreen from "../screens/PlaceListScreen";
@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 const PlaceNavigation = () => {
 	const dispatch = useDispatch();
 	return (
-		<NavigationContainer onReady={() => RNBootSplash.hide()}>
+		<NavigationContainer>
 			<Stack.Navigator initialRouteName="PlaceList">
 				<Stack.Screen
 					name="PlaceList"

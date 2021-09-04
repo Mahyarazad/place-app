@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, Image, Dimensions } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import { useSelector } from "react-redux";
 import MapboxGL from "@react-native-mapbox-gl/maps";
 import ENV from "../env";
