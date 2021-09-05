@@ -35,6 +35,7 @@ const LocationPicker = (props) => {
 					[{ text: "OK" }]
 				);
 			}
+
 			if (granted) {
 				Geolocation.getCurrentPosition((info) => {
 					setIsLoading(true);
@@ -50,7 +51,7 @@ const LocationPicker = (props) => {
 		} catch (err) {
 			console.warn(err.message);
 		}
-	}, [locationData, isLoading, Geolocation, PermissionsAndroid]);
+	}, [locationData, isLoading, Geolocation]);
 	
 	React.useEffect(() => {
 		if (typeof pickedLocation.action !== "undefined") {

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList, Dimensions } from "react-native";
+import {
+	View,
+	StyleSheet,
+	Text,
+	FlatList,
+	Dimensions,
+	ActivityIndicator,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PlaceCard from "../components/places/PlaceCard";
 import {
@@ -39,7 +46,8 @@ const PlaceListScreen = (props) => {
 	const dispatch = useDispatch();
 	const [modalActive, setModalActive] = React.useState(false);
 	const [promptUser, setPromptUser] = React.useState(false);
-	const [forwardId, setfForwardId] = React.useState(null);
+	const [forwardId, setForwardId] = React.useState(null);
+	const [isLoading, setIsLoading] = React.useState(false);
 	const { placeData } = useSelector((state) => state.places);
 	const { modalStat } = useSelector((state) => state.filter);
 	const { filterEnabled } = useSelector((state) => state.filter);
@@ -47,7 +55,9 @@ const PlaceListScreen = (props) => {
 	const loadPlace = React.useCallback(
 		(selectedDate) => {
 			if (!filterEnabled) {
+				setIsLoading(true);
 				dispatch(loadPlaces());
+				setIsLoading(false);
 			} else {
 				dispatch(applyFilter(selectedDate));
 			}
@@ -114,13 +124,24 @@ const PlaceListScreen = (props) => {
 					<Text style={styles.modalText}>Longpress for deletion</Text>
 				</View>
 			</Modal>
-			{typeof placeData === "undefined" ||
-			Object.values(placeData).length === 0 ? (
-				<View style={styles.emptyScreen}>
-					<Text style={{ fontSize: 22, textAlign: "center" }}>
-						Press the plus icon on the top right corner to pick a location.
-					</Text>
-				</View>
+
+			{isLoading ? (
+				<ActivityIndicator size="large" color="orange" />
+			) : typeof placeData === "undefined" ||
+			  Object.values(placeData).length === 0 ? (
+				filterEnabled ? (
+					<View style={styles.emptyScreen}>
+						<Text style={{ fontSize: 22, textAlign: "center" }}>
+							There is no record on this date.
+						</Text>
+					</View>
+				) : (
+					<View style={styles.emptyScreen}>
+						<Text style={{ fontSize: 22, textAlign: "center" }}>
+							Press the plus icon on the top right corner to pick a location.
+						</Text>
+					</View>
+				)
 			) : (
 				<FlatList
 					data={placeData}
@@ -137,7 +158,7 @@ const PlaceListScreen = (props) => {
 							}}
 							onLongPress={() => {
 								setPromptUser(true);
-								setfForwardId(itemData.item._id);
+								setForwardId(itemData.item._id);
 							}}
 						/>
 					)}

@@ -13,8 +13,6 @@ import { init } from "./helper/db";
 import RNBootSplash from "react-native-bootsplash";
 import * as FileSystem from "expo-file-system";
 
-RNBootSplash.hide();
-
 init()
 	.then(() => {
 		console.log("database initialized");
@@ -29,10 +27,7 @@ const rootReducer = combineReducers({
 	filter: FilterReducer,
 });
 
-const store = createStore(
-	rootReducer,
-	composeWithDevTools(applyMiddleware(ReduxThunk))
-);
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const checkCachedIntro = async () => {
 	let check;
@@ -60,6 +55,14 @@ const checkCachedIntro = async () => {
 export default function App() {
 	const [IntroScreenState, setIntroScreenState] = React.useState(true);
 
+	const handleBootSplash = React.useCallback(async () => {
+		try {
+			await RNBootSplash.hide();
+		} catch (err) {
+			console.log(err.message);
+		}
+	}, [RNBootSplash]);
+
 	const checkCache = React.useCallback(async () => {
 		if (await checkCachedIntro()) {
 			setIntroScreenState(false);
@@ -73,9 +76,10 @@ export default function App() {
 	];
 
 	React.useEffect(() => {
+		handleBootSplash();
 		checkCache();
 		StatusBar.setHidden(true);
-	}, [checkCache]);
+	}, [handleBootSplash, checkCache]);
 
 	if (IntroScreenState) {
 		return (

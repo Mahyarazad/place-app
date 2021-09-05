@@ -63,7 +63,7 @@ const PlaceNavigation = () => {
 								<Item
 									iconName="save"
 									size={24}
-									color="orange"
+									color="white"
 									onPress={() => {
 										if (route.params) {
 											const coords = route.params;
